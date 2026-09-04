@@ -16,7 +16,7 @@ const { analyzeJobDescription } = require("../services/geminiService");
 const router = express.Router();
 
 router.post(
-    "/analyze",
+    "/",
     requireAuth,
     analyzeLimiter,
     uploadPdf.single("file"),
@@ -45,3 +45,5 @@ router.post(
         });
     })
 );
+
+module.exports = router;
