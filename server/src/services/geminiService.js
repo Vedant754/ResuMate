@@ -81,6 +81,22 @@ const responseSchema = {
   },
 };
 
+const jobDescriptionResponseSchema = {
+  ...responseSchema,
+  required: [
+    "atsScore",
+    "strengths",
+    "keywordsPresent",
+    "keywordsMissing",
+    "summary",
+  ],
+  properties: Object.fromEntries(
+    Object.entries(responseSchema.properties).filter(
+      ([key]) => !["scoreBreakdown", "issues", "bulletRewrites"].includes(key)
+    )
+  ),
+};
+
 const analysisValidator = z.object({
   atsScore: z.number().min(0).max(100),
   scoreBreakdown: z.object({
@@ -117,7 +133,48 @@ const analysisValidator = z.object({
   summary: z.string(),
 });
 
-function buildPrompt({ rawText, targetRole }) {
+const jobDescriptionAnalysisValidator = z.object({
+  atsScore: z.number().min(0).max(100),
+
+  strengths: z
+    .array(
+      z.object({
+        title: z.string(),
+        evidence: z.string(),
+      })
+    )
+    .length(5),
+
+  // Keywords found in both the resume and job description.
+  keywordsPresent: z.array(z.string()).default([]),
+
+  // Important job-description keywords absent from the resume.
+  keywordsMissing: z.array(z.string()).default([]),
+
+  summary: z.string(),
+});
+
+function buildPrompt({ rawText, targetRole, jobDesc }) {
+  if (jobDesc) {
+    return [
+      "You are a senior technical recruiter and ATS expert comparing a resume against a job description.",
+      "",
+      "Score the resume from 0–100 based on how well it matches the job description, including relevant keywords, required skills, experience, parseable formatting, quantified impact, and clarity.",
+      "Return exactly 5 standout strengths. Do not return issues, score breakdown details, or bullet rewrites.",
+      "Identify keywords clearly present in both the resume and job description, plus notable job-description keywords missing from the resume.",
+      "Be specific and evidence-based: cite phrasing from the resume and job description in the strength evidence and summary.",
+      "",
+      "JOB DESCRIPTION:",
+      "-----------------",
+      jobDesc,
+      "-----------------",
+      "RESUME TEXT:",
+      "----------",
+      rawText,
+      "----------",
+    ].join("\n");
+  }
+
   return [
     "You are a senior technical recruiter and ATS expert reviewing a resume.",
     targetRole
@@ -137,13 +194,13 @@ function buildPrompt({ rawText, targetRole }) {
   ].join("\n");
 }
 
-async function callGemini(prompt) {
+async function callGemini(prompt, schema = responseSchema) {
   const result = await ai.models.generateContent({
     model: env.geminiModel,
     contents: [{ role: "user", parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
-      responseSchema,
+      responseSchema: schema,
       temperature: 0.4,
     },
   });
@@ -189,4 +246,36 @@ async function analyzeResume({ rawText, targetRole }) {
   );
 }
 
-module.exports = { analyzeResume };
+
+async function analyzeJobDescription({ rawText, jobDesc }) {
+  if (!ai) {
+    throw ApiError.internal(
+      "GEMINI_API_KEY is not configured on the server."
+    );
+  }
+
+  const prompt = buildPrompt({ rawText, jobDesc });
+
+  let lastErr;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const { text, usage } = await callGemini(prompt, jobDescriptionResponseSchema);
+      const parsed = JSON.parse(text);
+      const validated = jobDescriptionAnalysisValidator.parse(parsed);
+      return {
+        analysis: validated,
+        model: env.geminiModel,
+        promptTokens: usage.promptTokenCount,
+        responseTokens: usage.candidatesTokenCount,
+      };
+    } catch (err) {
+      lastErr = err;
+      if (attempt === 2) break;
+    }
+  }
+  throw ApiError.internal(
+    `Gemini analysis failed: ${lastErr?.message || "unknown error"}`
+  );
+}
+
+module.exports = { analyzeResume, analyzeJobDescription };
