@@ -26,3 +26,16 @@ export const resumesApi = {
       .get(`/resumes/${id}/diff`, { params: { from, to, mode } })
       .then((r) => r.data),
 };
+
+export const jobDescriptionApi = {
+  analyze: (file, jobDesc) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("jobDesc", jobDesc);
+    return apiClient
+      .post("/job-description", fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((r) => r.data);
+  },
+};

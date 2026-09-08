@@ -1,19 +1,25 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BriefcaseBusiness, FileText, Link2, Sparkles, UploadCloud } from "lucide-react";
+import { BriefcaseBusiness, FileText, Link2, Loader2, Sparkles, UploadCloud } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Card, CardTitle, CardDescription, CardHeader, CardContent } from "@/components/ui/Card";
 import { UploadDropzone } from "@/components/resume/UploadDropzone";
+import { Button } from "@/components/ui/Button";
+import { jobDescriptionApi } from "@/api/resumes";
 
 export default function JobDescriptions() {
-  const nav = useNavigate();
   const fileInputRef = useRef(null);
   const [jobDescription, setJobDescription] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [fileName, setFileName] = useState("");
+  const [resumeFile, setResumeFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [analysisResult, setAnalysisResult] = useState(null);
 
-  function handleUploaded(resume) {
-    nav(`/resumes/${resume._id}`);
+  function handleUploaded(_resume, file) {
+    setResumeFile(file);
+    setSubmitError("");
+    setAnalysisResult(null);
   }
 
   function handleJobFile(event) {
@@ -23,6 +29,22 @@ export default function JobDescriptions() {
     const reader = new FileReader();
     reader.onload = () => setJobDescription(String(reader.result || ""));
     reader.readAsText(file);
+  }
+
+  async function handleSubmit() {
+    if (!resumeFile || !jobDescription.trim()) return;
+
+    setSubmitError("");
+    setAnalysisResult(null);
+    setIsSubmitting(true);
+    try {
+      const result = await jobDescriptionApi.analyze(resumeFile, jobDescription.trim());
+      setAnalysisResult(result.analysis);
+    } catch (error) {
+      setSubmitError(error.message || "Unable to analyze this resume.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -86,6 +108,36 @@ export default function JobDescriptions() {
                 <div><div className="font-display font-semibold text-sm">Ready to tailor your resume?</div><div className="text-xs text-white/65 mt-1">Upload both documents to unlock a focused comparison.</div></div>
                 <Sparkles size={20} className="shrink-0 text-[#d7e8db]" />
               </div>
+              <Button
+                type="button"
+                variant="accent"
+                size="lg"
+                onClick={handleSubmit}
+                disabled={isSubmitting || !resumeFile || !jobDescription.trim()}
+                className="w-full"
+              >
+                {isSubmitting ? (
+                  <><Loader2 size={15} className="animate-spin" /> Analyzing...</>
+                ) : (
+                  <><Sparkles size={15} /> Analyze match</>
+                )}
+              </Button>
+              {submitError && (
+                <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+                  {submitError}
+                </div>
+              )}
+              {analysisResult && (
+                <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] p-4 space-y-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="font-display font-semibold text-sm">Match analyzed</div>
+                    <div className="text-lg font-display font-bold text-[var(--accent-strong)]">
+                      {analysisResult.atsScore}/100
+                    </div>
+                  </div>
+                  <p className="text-xs leading-5 text-[var(--ink-muted)]">{analysisResult.summary}</p>
+                </div>
+              )}
             </div>
           </Card>
         </div>
