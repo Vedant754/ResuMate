@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
-import { BriefcaseBusiness, FileText, Link2, Loader2, Sparkles, UploadCloud } from "lucide-react";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { Card, CardTitle, CardDescription, CardHeader, CardContent } from "@/components/ui/Card";
+import { BriefcaseBusiness, Loader2, Sparkles, UploadCloud } from "lucide-react";
+import { Card, CardTitle, CardDescription } from "@/components/ui/Card";
 import { UploadDropzone } from "@/components/resume/UploadDropzone";
 import { Button } from "@/components/ui/Button";
 import { jobDescriptionApi } from "@/api/resumes";
@@ -10,7 +9,6 @@ export default function JobDescriptions() {
   const fileInputRef = useRef(null);
   const [jobDescription, setJobDescription] = useState("");
   const [jobTitle, setJobTitle] = useState("");
-  const [fileName, setFileName] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -25,20 +23,23 @@ export default function JobDescriptions() {
   function handleJobFile(event) {
     const file = event.target.files?.[0];
     if (!file) return;
-    setFileName(file.name);
     const reader = new FileReader();
     reader.onload = () => setJobDescription(String(reader.result || ""));
     reader.readAsText(file);
   }
 
   async function handleSubmit() {
-    if (!resumeFile || !jobDescription.trim()) return;
+    if (!resumeFile || !jobTitle.trim() || !jobDescription.trim()) return;
 
     setSubmitError("");
     setAnalysisResult(null);
     setIsSubmitting(true);
     try {
-      const result = await jobDescriptionApi.analyze(resumeFile, jobDescription.trim());
+      const result = await jobDescriptionApi.analyze(
+        resumeFile,
+        jobDescription.trim(),
+        jobTitle.trim()
+      );
       setAnalysisResult(result.analysis);
     } catch (error) {
       setSubmitError(error.message || "Unable to analyze this resume.");
@@ -48,100 +49,77 @@ export default function JobDescriptions() {
   }
 
   return (
-    <div className="space-y-7">
-      <PageHeader
+    <div className="space-y-6">
+      {/* <PageHeader
         title="Build your match"
         description="Bring together a resume and a target role to get sharper, more relevant feedback."
-      />
+      /> */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-stretch">
-        <div className="min-w-0">
-          <Card className="h-full min-h-[430px] flex flex-col">
-            <CardHeader>
-              <div className="flex gap-3">
-                <div className="h-10 w-10 shrink-0 rounded-2xl bg-[var(--accent-soft)] text-[var(--accent-strong)] flex items-center justify-center">
-                  <FileText size={18} />
-                </div>
-                <div>
-                  <CardTitle className="text-base">Your resume</CardTitle>
-                  <CardDescription className="mt-1">
-                    Start with the version you want to improve.
-                  </CardDescription>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[var(--ink-muted)]">01</span>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col justify-center">
-              <UploadDropzone onUploaded={handleUploaded} />
-            </CardContent>
-          </Card>
+      <Card padding="none" className="w-full overflow-hidden">
+        <div className="border-b border-[var(--border)] p-4 sm:p-5">
+          <div className="flex items-start gap-3 mb-4">
+            <div className="h-10 w-10 shrink-0 rounded-2xl bg-[#f6ead8] text-[#946326] flex items-center justify-center">
+              <BriefcaseBusiness size={18} />
+            </div>
+            <div>
+              <CardTitle className="text-base">Target job description</CardTitle>
+              <CardDescription className="mt-1">Add the role and paste the job posting below.</CardDescription>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
+            <input value={jobTitle} onChange={(event) => setJobTitle(event.target.value)} placeholder="Role title (e.g. Product Designer)" className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm outline-none transition focus:border-[var(--accent)]" />
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="h-10 rounded-xl border border-[var(--border)] px-3 text-sm font-medium flex items-center justify-center gap-2 hover:bg-[var(--surface-2)] transition">
+              <UploadCloud size={15} /> Import .txt
+            </button>
+            <input ref={fileInputRef} type="file" accept=".txt,text/plain" onChange={handleJobFile} className="hidden" />
+          </div>
+          <textarea value={jobDescription} onChange={(event) => setJobDescription(event.target.value)} placeholder="Paste the responsibilities, requirements, and qualifications from the job posting here..." className="mt-3 h-26 w-full resize-none overflow-y-auto rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-3.5 text-sm leading-6 outline-none transition placeholder:text-[var(--ink-muted)] focus:border-[var(--accent)]" />
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-2 text-xs text-[var(--ink-muted)]">
+            {/* <span>{fileName || `${jobDescription.length} characters`}</span>
+            <span className="flex items-center gap-1.5"><Link2 size={13} /> Saved for this session</span> */}
+          </div>
         </div>
 
-        <div className="min-w-0">
-          <Card padding="none" className="h-full min-h-[430px]">
-            <div className="p-5 pb-0 flex items-start justify-between gap-3">
-              <div className="flex gap-3">
-                <div className="h-10 w-10 shrink-0 rounded-2xl bg-[#f6ead8] text-[#946326] flex items-center justify-center">
-                  <BriefcaseBusiness size={18} />
-                </div>
-                <div>
-                  <CardTitle className="text-base">Target job description</CardTitle>
-                  <CardDescription className="mt-1">Paste the role, or import a plain-text file.</CardDescription>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[var(--ink-muted)]">02</span>
+        <div className="p-4 sm:p-5 space-y-3">
+          {/* <CardDescription>Upload the PDF version you want to improve.</CardDescription> */}
+          <UploadDropzone onUploaded={handleUploaded} compact />
+          <Button
+            type="button"
+            variant="accent"
+            size="lg"
+            onClick={handleSubmit}
+            disabled={
+              isSubmitting ||
+              !resumeFile ||
+              !jobTitle.trim() ||
+              !jobDescription.trim()
+            }
+            className="w-full"
+          >
+            {isSubmitting ? (
+              <><Loader2 size={15} className="animate-spin" /> Analyzing...</>
+            ) : (
+              <><Sparkles size={15} /> Analyze match</>
+            )}
+          </Button>
+          {submitError && (
+            <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+              {submitError}
             </div>
-            <div className="p-5 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
-                <input value={jobTitle} onChange={(event) => setJobTitle(event.target.value)} placeholder="Role title (e.g. Product Designer)" className="h-10 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm outline-none transition focus:border-[var(--accent)]" />
-                <button type="button" onClick={() => fileInputRef.current?.click()} className="h-10 rounded-xl border border-[var(--border)] px-3 text-sm font-medium flex items-center justify-center gap-2 hover:bg-[var(--surface-2)] transition">
-                  <UploadCloud size={15} /> Import .txt
-                </button>
-                <input ref={fileInputRef} type="file" accept=".txt,text/plain" onChange={handleJobFile} className="hidden" />
-              </div>
-              <textarea value={jobDescription} onChange={(event) => { setFileName(""); setJobDescription(event.target.value); }} placeholder="Paste the responsibilities, requirements, and qualifications from the job posting here..." className="min-h-[190px] w-full resize-y rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] p-4 text-sm leading-6 outline-none transition placeholder:text-[var(--ink-muted)] focus:border-[var(--accent)]" />
-              <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-[var(--ink-muted)]">
-                <span>{fileName || `${jobDescription.length} characters`}</span>
-                <span className="flex items-center gap-1.5"><Link2 size={13} /> Saved for this session</span>
-              </div>
-              <div className="rounded-2xl bg-[var(--accent-hero)] text-white p-4 flex items-center justify-between gap-4">
-                <div><div className="font-display font-semibold text-sm">Ready to tailor your resume?</div><div className="text-xs text-white/65 mt-1">Upload both documents to unlock a focused comparison.</div></div>
-                <Sparkles size={20} className="shrink-0 text-[#d7e8db]" />
-              </div>
-              <Button
-                type="button"
-                variant="accent"
-                size="lg"
-                onClick={handleSubmit}
-                disabled={isSubmitting || !resumeFile || !jobDescription.trim()}
-                className="w-full"
-              >
-                {isSubmitting ? (
-                  <><Loader2 size={15} className="animate-spin" /> Analyzing...</>
-                ) : (
-                  <><Sparkles size={15} /> Analyze match</>
-                )}
-              </Button>
-              {submitError && (
-                <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
-                  {submitError}
+          )}
+          {analysisResult && (
+            <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] p-4 space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <div className="font-display font-semibold text-sm">Match analyzed</div>
+                <div className="text-lg font-display font-bold text-[var(--accent-strong)]">
+                  {analysisResult.atsScore}/100
                 </div>
-              )}
-              {analysisResult && (
-                <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] p-4 space-y-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="font-display font-semibold text-sm">Match analyzed</div>
-                    <div className="text-lg font-display font-bold text-[var(--accent-strong)]">
-                      {analysisResult.atsScore}/100
-                    </div>
-                  </div>
-                  <p className="text-xs leading-5 text-[var(--ink-muted)]">{analysisResult.summary}</p>
-                </div>
-              )}
+              </div>
+              <p className="text-xs leading-5 text-[var(--ink-muted)]">{analysisResult.summary}</p>
             </div>
-          </Card>
+          )}
         </div>
-      </div>
+      </Card>
 
     </div>
   );

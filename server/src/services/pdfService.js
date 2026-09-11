@@ -7,7 +7,7 @@ async function extractText(buffer) {
     parser = new PDFParse({ data: buffer });
     const result = await parser.getText();
 
-    const text = (result.text || "").trim();
+    const text = typeof result.text === "string" ? result.text.trim() : "";
     if (!text || text.length < 50) {
       throw ApiError.badRequest(
         "Could not extract readable text — is this a scanned/image-only PDF?"

@@ -164,6 +164,8 @@ function buildPrompt({ rawText, targetRole, jobDesc }) {
       "Identify keywords clearly present in both the resume and job description, plus notable job-description keywords missing from the resume.",
       "Be specific and evidence-based: cite phrasing from the resume and job description in the strength evidence and summary.",
       "",
+      `TARGET ROLE: ${targetRole || "Not specified"}`,
+      "",
       "JOB DESCRIPTION:",
       "-----------------",
       jobDesc,
@@ -247,14 +249,14 @@ async function analyzeResume({ rawText, targetRole }) {
 }
 
 
-async function analyzeJobDescription({ rawText, jobDesc }) {
+async function analyzeJobDescription({ rawText, jobDesc, targetRole }) {
   if (!ai) {
     throw ApiError.internal(
       "GEMINI_API_KEY is not configured on the server."
     );
   }
 
-  const prompt = buildPrompt({ rawText, jobDesc });
+  const prompt = buildPrompt({ rawText, jobDesc, targetRole });
 
   let lastErr;
   for (let attempt = 1; attempt <= 2; attempt++) {

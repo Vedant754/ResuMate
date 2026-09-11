@@ -7,10 +7,12 @@ export const resumesApi = {
     apiClient.get(`/resumes/${id}/versions/${versionId}`).then((r) => r.data),
   upload: (file, title) => {
     const fd = new FormData();
-    fd.append("file", file);
+    fd.append("file", file, file.name);
     if (title) fd.append("title", title);
     return apiClient
-      .post("/resumes", fd, { headers: { "Content-Type": "multipart/form-data" } })
+      .post("/resumes", fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((r) => r.data);
   },
   remove: (id) => apiClient.delete(`/resumes/${id}`).then((r) => r.data),
@@ -28,10 +30,11 @@ export const resumesApi = {
 };
 
 export const jobDescriptionApi = {
-  analyze: (file, jobDesc) => {
+  analyze: (file, jobDesc, targetRole) => {
     const fd = new FormData();
-    fd.append("file", file);
+    fd.append("file", file, file.name);
     fd.append("jobDesc", jobDesc);
+    fd.append("targetRole", targetRole);
     return apiClient
       .post("/job-description", fd, {
         headers: { "Content-Type": "multipart/form-data" },

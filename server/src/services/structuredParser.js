@@ -197,9 +197,10 @@ const EMPTY = {
 };
 
 async function parseResume(rawText) {
-  if (!ai || !rawText?.trim()) return EMPTY;
+  const normalizedText = typeof rawText === "string" ? rawText : "";
+  if (!ai || !normalizedText.trim()) return EMPTY;
 
-  const prompt = buildPrompt(rawText);
+  const prompt = buildPrompt(normalizedText);
 
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {

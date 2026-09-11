@@ -27,9 +27,12 @@ export function UploadDropzone({ onUploaded, compact = false }) {
     maxSize: MAX_BYTES,
     multiple: false,
     onDropAccepted: (files) => {
+      const nextFile = files[0];
+      const nextTitle = nextFile.name.replace(/\.pdf$/i, "");
       setErr("");
-      setFile(files[0]);
-      if (!title) setTitle(files[0].name.replace(/\.pdf$/i, ""));
+      setFile(nextFile);
+      setTitle(nextTitle);
+      if (compact) onUploaded?.(null, nextFile);
     },
     onDropRejected: (rejections) => {
       const reason = rejections?.[0]?.errors?.[0]?.message || "File rejected";
@@ -37,23 +40,27 @@ export function UploadDropzone({ onUploaded, compact = false }) {
     },
   });
 
-  async function submit() {
-    if (!file) return;
+  async function uploadFile(selectedFile, selectedTitle) {
     setErr("");
     try {
-      const data = await upload.mutateAsync({ file, title });
+      const data = await upload.mutateAsync({ file: selectedFile, title: selectedTitle });
       setFile(null);
       setTitle("");
-      onUploaded?.(data.resume, file);
+      onUploaded?.(data.resume, selectedFile);
     } catch (e) {
       setErr(e.message || "Upload failed");
     }
+  }
+
+  async function submit() {
+    if (file) await uploadFile(file, title);
   }
 
   function reset() {
     setFile(null);
     setTitle("");
     setErr("");
+    if (compact) onUploaded?.(null, null);
   }
 
   return (
@@ -62,8 +69,10 @@ export function UploadDropzone({ onUploaded, compact = false }) {
         <div
           {...getRootProps()}
           className={cn(
-            "rounded-3xl border border-dashed cursor-pointer transition-all duration-200 outline-none",
-            compact ? "p-6" : "p-10",
+            "border border-dashed cursor-pointer transition-all duration-200 outline-none",
+            compact
+              ? "min-h-16 rounded-xl px-3 py-2.5 flex items-center"
+              : "rounded-3xl p-10",
             isDragActive
               ? "border-[var(--accent)] bg-[var(--accent-soft)]"
               : "border-[var(--border)] bg-[var(--surface-2)] hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]/40",
@@ -71,11 +80,12 @@ export function UploadDropzone({ onUploaded, compact = false }) {
           )}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col items-center text-center">
+          <div className={cn("flex", compact ? "items-center gap-3 text-left" : "flex-col items-center text-center")}>
             <motion.div
               animate={isDragActive ? { y: -4 } : { y: 0 }}
               className={cn(
-                "rounded-2xl flex items-center justify-center mb-3",
+                "rounded-xl flex items-center justify-center shrink-0",
+                !compact && "mb-3",
                 compact ? "h-10 w-10" : "h-14 w-14",
                 isDragActive
                   ? "bg-[var(--accent)] text-white"
@@ -84,11 +94,13 @@ export function UploadDropzone({ onUploaded, compact = false }) {
             >
               <UploadCloud size={compact ? 18 : 22} />
             </motion.div>
-            <div className={cn("font-display font-semibold tracking-tight", compact ? "text-sm" : "text-base")}>
-              {isDragActive ? "Drop it here" : "Drop your resume PDF"}
-            </div>
-            <div className="text-xs text-[var(--ink-muted)] mt-1">
-              or click to browse · max 5 MB · PDF only
+            <div>
+              <div className={cn("font-display font-semibold tracking-tight", compact ? "text-sm" : "text-base")}>
+                {isDragActive ? "Drop it here" : compact ? "Choose resume PDF" : "Drop your resume PDF"}
+              </div>
+              <div className="text-xs text-[var(--ink-muted)] mt-1">
+                {compact ? "Click to browse · max 5 MB" : "or click to browse · max 5 MB · PDF only"}
+              </div>
             </div>
           </div>
         </div>
@@ -113,7 +125,7 @@ export function UploadDropzone({ onUploaded, compact = false }) {
         </div>
       )}
 
-      {file && (
+      {file && !compact && (
         <div className="space-y-3">
           <Input
             placeholder="Resume title (optional)"
