@@ -23,5 +23,6 @@ module.exports = {
     .filter(Boolean),
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   geminiModel: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+  monitoringToken: process.env.MONITORING_TOKEN || "",
   isProd: process.env.NODE_ENV === "production",
 };

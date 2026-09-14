@@ -3,6 +3,7 @@ const { z } = require("zod");
 
 const env = require("../config/env");
 const ApiError = require("../utils/ApiError");
+const monitoring = require("./monitoring");
 
 const ai = env.geminiApiKey
   ? new GoogleGenAI({ apiKey: env.geminiApiKey })
@@ -196,25 +197,41 @@ function buildPrompt({ rawText, targetRole, jobDesc }) {
   ].join("\n");
 }
 
-async function callGemini(prompt, schema = responseSchema) {
-  const result = await ai.models.generateContent({
-    model: env.geminiModel,
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: schema,
-      temperature: 0.4,
-    },
-  });
+async function callGemini(prompt, schema = responseSchema, operation) {
+  const startedAt = process.hrtime.bigint();
+  try {
+    const result = await ai.models.generateContent({
+      model: env.geminiModel,
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: schema,
+        temperature: 0.4,
+      },
+    });
 
-  const text =
-    typeof result.text === "function" ? result.text() : result.text;
-  if (!text) throw new Error("Empty response from Gemini");
+    const text =
+      typeof result.text === "function" ? result.text() : result.text;
+    if (!text) throw new Error("Empty response from Gemini");
 
-  return {
-    text,
-    usage: result.usageMetadata || {},
-  };
+    const usage = result.usageMetadata || {};
+    monitoring.recordAiCall({
+      operation,
+      model: env.geminiModel,
+      durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
+      promptTokens: usage.promptTokenCount,
+      responseTokens: usage.candidatesTokenCount,
+    });
+    return { text, usage };
+  } catch (error) {
+    monitoring.recordAiCall({
+      operation,
+      model: env.geminiModel,
+      durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
+      error,
+    });
+    throw error;
+  }
 }
 
 async function analyzeResume({ rawText, targetRole }) {
@@ -229,7 +246,7 @@ async function analyzeResume({ rawText, targetRole }) {
   let lastErr;
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const { text, usage } = await callGemini(prompt);
+      const { text, usage } = await callGemini(prompt, responseSchema, "resume-analysis");
       const parsed = JSON.parse(text);
       const validated = analysisValidator.parse(parsed);
       return {
@@ -261,7 +278,11 @@ async function analyzeJobDescription({ rawText, jobDesc, targetRole }) {
   let lastErr;
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const { text, usage } = await callGemini(prompt, jobDescriptionResponseSchema);
+      const { text, usage } = await callGemini(
+        prompt,
+        jobDescriptionResponseSchema,
+        "job-description-analysis"
+      );
       const parsed = JSON.parse(text);
       const validated = jobDescriptionAnalysisValidator.parse(parsed);
       return {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { reportClientError } from "@/lib/telemetry";
 
 export const apiClient = axios.create({
   baseURL: "/api",
@@ -13,6 +14,11 @@ apiClient.interceptors.response.use(
       err.response?.data?.error?.message ||
       err.message ||
       "Request failed";
+    reportClientError({
+      type: "api-error",
+      message: `${err.config?.method?.toUpperCase() || "REQUEST"} ${err.config?.url || "unknown"}: ${message}`,
+      stack: err.stack,
+    });
     return Promise.reject({
       status: err.response?.status,
       message,

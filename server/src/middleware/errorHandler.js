@@ -1,5 +1,6 @@
 const env = require("../config/env");
 const ApiError = require("../utils/ApiError");
+const monitoring = require("../services/monitoring");
 
 function notFound(req, res, next) {
   next(ApiError.notFound(`Route ${req.method} ${req.originalUrl} not found`));
@@ -31,6 +32,13 @@ function errorHandler(err, req, res, _next) {
 
   if (status >= 500) {
     console.error(`[${req.method} ${req.originalUrl}]`, err);
+    monitoring.recordServerError({
+      method: req.method,
+      url: req.originalUrl,
+      statusCode: status,
+      message,
+      stack: err.stack,
+    });
   }
 
   res.status(status).json({

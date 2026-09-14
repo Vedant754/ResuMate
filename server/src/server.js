@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const env = require("./config/env");
 const { connectDB } = require("./config/db");
 const { notFound, errorHandler } = require("./middleware/errorHandler");
+const { requestMetrics } = require("./middleware/monitoring");
+const monitoring = require("./services/monitoring");
 
 const healthRouter = require("./routes/health");
 const authRouter = require("./routes/auth");
@@ -15,6 +17,7 @@ const insightsRouter = require("./routes/insights");
 const versionsRouter = require("./routes/versions");
 const historyRouter = require("./routes/history");
 const JobDescriptionRouter = require("./routes/jobDescription");
+const monitoringRouter = require("./routes/monitoring");
 
 const app = express();
 
@@ -28,9 +31,11 @@ app.use(
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(cookieParser());
+app.use(requestMetrics);
 if (!env.isProd) app.use(morgan("dev"));
 
 app.use("/api/health", healthRouter);
+app.use("/api/monitoring", monitoringRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/resumes", resumesRouter);
 app.use("/api/job-description", JobDescriptionRouter);
@@ -56,6 +61,21 @@ async function start() {
 
 process.on("unhandledRejection", (reason) => {
   console.error("Unhandled rejection:", reason);
+  monitoring.recordServerError({
+    statusCode: 500,
+    message: reason?.message || String(reason),
+    stack: reason?.stack,
+  });
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught exception:", error);
+  monitoring.recordServerError({
+    statusCode: 500,
+    message: error.message,
+    stack: error.stack,
+  });
+  process.exit(1);
 });
 
 start();
