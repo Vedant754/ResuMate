@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
+const client = require("prom-client");
 
 const env = require("./config/env");
 const { connectDB } = require("./config/db");
@@ -20,6 +21,22 @@ const JobDescriptionRouter = require("./routes/jobDescription");
 const monitoringRouter = require("./routes/monitoring");
 
 const app = express();
+
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ register: client.register, timeout: 5000, prefix: "resume_gpt_" });
+
+// Route for metrics endpoint
+app.get('/metrics', async (req, res) => {
+  try {
+    res.setHeader('Content-Type', client.register.contentType);
+    const metrics = await client.register.metrics();
+    res.send(metrics);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+
 
 app.set("trust proxy", 1);
 app.use(
