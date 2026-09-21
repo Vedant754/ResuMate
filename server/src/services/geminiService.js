@@ -5,6 +5,13 @@ const env = require("../config/env");
 const ApiError = require("../utils/ApiError");
 const monitoring = require("./monitoring");
 
+const {
+  geminiRequestsTotal,
+  geminiErrorsTotal,
+  geminiRequestDuration,
+  geminiTokensTotal,
+} = require("../metrics");
+
 const ai = env.geminiApiKey
   ? new GoogleGenAI({ apiKey: env.geminiApiKey })
   : null;
@@ -210,26 +217,72 @@ async function callGemini(prompt, schema = responseSchema, operation) {
       },
     });
 
+    const duration =
+      Number(process.hrtime.bigint() - startedAt) / 1e9;
+
+    // Request count
+    geminiRequestsTotal.inc({
+      model: env.geminiModel,
+    });
+
+    // Latency
+    geminiRequestDuration.observe(
+      {
+        model: env.geminiModel,
+      },
+      duration
+    );
+
     const text =
       typeof result.text === "function" ? result.text() : result.text;
     if (!text) throw new Error("Empty response from Gemini");
 
     const usage = result.usageMetadata || {};
-    monitoring.recordAiCall({
-      operation,
-      model: env.geminiModel,
-      durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
-      promptTokens: usage.promptTokenCount,
-      responseTokens: usage.candidatesTokenCount,
-    });
+
+    if (usage) {
+      geminiTokensTotal.inc(
+        {
+          model: env.geminiModel,
+          type: "prompt",
+        },
+        usage.promptTokenCount || 0
+      );
+
+      geminiTokensTotal.inc(
+        {
+          model: env.geminiModel,
+          type: "response",
+        },
+        usage.candidatesTokenCount || 0
+      );
+
+      geminiTokensTotal.inc(
+        {
+          model: env.geminiModel,
+          type: "total",
+        },
+        usage.totalTokenCount || 0
+      );
+    }
+
+    // monitoring.recordAiCall({
+    //   operation,
+    //   model: env.geminiModel,
+    //   durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
+    //   promptTokens: usage.promptTokenCount,
+    //   responseTokens: usage.candidatesTokenCount,
+    // });
     return { text, usage };
   } catch (error) {
-    monitoring.recordAiCall({
-      operation,
-      model: env.geminiModel,
-      durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
-      error,
-    });
+    // monitoring.recordAiCall({
+    //   operation,
+    //   model: env.geminiModel,
+    //   durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
+    //   error,
+    // });
+    geminiErrorsTotal.inc({
+    model: env.geminiModel,
+  });
     throw error;
   }
 }
@@ -301,4 +354,4 @@ async function analyzeJobDescription({ rawText, jobDesc, targetRole }) {
   );
 }
 
-module.exports = { analyzeResume, analyzeJobDescription };
+module.exports = { analyzeResume, analyzeJobDescription};

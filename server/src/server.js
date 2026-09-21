@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-const client = require("prom-client");
 
 const env = require("./config/env");
 const { connectDB } = require("./config/db");
@@ -19,38 +18,62 @@ const versionsRouter = require("./routes/versions");
 const historyRouter = require("./routes/history");
 const JobDescriptionRouter = require("./routes/jobDescription");
 const monitoringRouter = require("./routes/monitoring");
+const {
+  client,
+  register,
+  httpRequestsTotal,
+  httpRequestDuration,
+  mongoStatus,
+  mongoOperationsTotal,
+  mongoOperationDuration,
+  mongoErrorsTotal, 
+} = require("./metrics");
 
 const app = express();
 
-const register = new client.Registry();
-client.collectDefaultMetrics({register});
+// const register = new client.Registry();
+// client.collectDefaultMetrics({register});
 
-const httpRequestsTotal = new client.Counter({
-  name: "http_requests_total",
-  help: "Total number of HTTP requests",
-  labelNames: ["method", "route", "status_code"],
-  registers: [register],
-});
 
-const httpRequestDuration = new client.Histogram({
-  name: "http_request_duration_seconds",
-  help: "HTTP request duration in seconds",
-  labelNames: ["method", "route", "status_code"],
-  buckets: [
-    0.005,
-    0.01,
-    0.025,
-    0.05,
-    0.1,
-    0.25,
-    0.5,
-    1,
-    2.5,
-    5,
-    10,
-  ],
-  registers: [register],
-});
+// const mongoOperationsTotal = new client.Counter({
+//   name: "mongodb_operations_total",
+//   help: "Total MongoDB operations",
+//   labelNames: ["operation"],
+//   registers: [register],
+// });
+
+// const mongoErrorsTotal = new client.Counter({
+//   name: "mongodb_errors_total",
+//   help: "Total MongoDB operation failures",
+//   labelNames: ["operation"],
+//   registers: [register],
+// });
+
+// const mongoOperationDuration = new client.Histogram({
+//   name: "mongodb_operation_duration_seconds",
+//   help: "MongoDB operation duration in seconds",
+//   labelNames: ["operation"],
+//   buckets: [
+//     0.001,
+//     0.005,
+//     0.01,
+//     0.025,
+//     0.05,
+//     0.1,
+//     0.25,
+//     0.5,
+//     1,
+//     2.5,
+//     5,
+//   ],
+//   registers: [register],
+// });
+
+// const mongoStatus = new client.Gauge({
+//   name: "mongodb_status",
+//   help: "MongoDB connection status (1 = connected, 0 = disconnected)",
+//   registers: [register],
+// });
 
 // middleware to record metrics for each request
 app.use((req, res, next) => {
@@ -58,9 +81,9 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
 
-  //   if (req.path === "/metrics") {
-  //   return next();
-  // }
+    //   if (req.path === "/metrics") {
+    //   return next();
+    // }
     const duration =
       Number(process.hrtime.bigint() - start) / 1e9;
 
@@ -85,6 +108,9 @@ app.use((req, res, next) => {
 
   next();
 });
+
+// Gemini service metrics
+// client.collectDefaultMetrics({register: register_gemini});
 
 // Route for metrics endpoint
 app.get("/metrics", async (req, res) => {
@@ -131,7 +157,7 @@ app.use(errorHandler);
 
 async function start() {
   try {
-    await connectDB();
+    await connectDB(mongoStatus, mongoOperationDuration, mongoOperationsTotal, mongoErrorsTotal);
     app.listen(env.port, () => {
       console.log(`Server listening on http://localhost:${env.port} (${env.nodeEnv})`);
     });
