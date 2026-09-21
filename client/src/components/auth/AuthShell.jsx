@@ -27,7 +27,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(140deg, #18271F 0%, #2F4A3A 38%, #1A2B22 72%, #0E1812 100%)",
+            "linear-gradient(135deg, #243B64 0%, #344D7A 55%, #5967A8 100%)",
         }}
       />
 
@@ -36,7 +36,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(168,196,179,0.55) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(139,127,199,0.3) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{
@@ -50,7 +50,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute -bottom-40 -left-32 w-[460px] h-[460px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(91,124,106,0.6) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(176,154,232,0.24) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{
@@ -172,10 +172,10 @@ export function AuthPrimaryButton({ children, disabled, ...props }) {
     <motion.button
       whileTap={{ scale: 0.985 }}
       disabled={disabled}
-      className="relative w-full h-12 rounded-2xl text-white font-semibold text-[15px] flex items-center justify-center gap-2 overflow-hidden shadow-[0_8px_24px_-8px_rgba(47,74,58,0.55)] transition-all duration-200 hover:shadow-[0_12px_28px_-8px_rgba(47,74,58,0.7)] disabled:opacity-60 disabled:cursor-not-allowed"
+      className="relative w-full h-12 rounded-2xl text-white font-semibold text-[15px] flex items-center justify-center gap-2 overflow-hidden shadow-[0_8px_24px_-8px_rgba(36,59,100,0.45)] transition-all duration-200 hover:shadow-[0_12px_28px_-8px_rgba(23,43,77,0.65)] disabled:opacity-60 disabled:cursor-not-allowed"
       style={{
         background:
-          "linear-gradient(135deg, #5B7C6A 0%, #3A5C49 50%, #2F4A3A 100%)",
+          "linear-gradient(135deg, #243B64 0%, #5967A8 100%)",
       }}
       {...props}
     >
@@ -200,7 +200,7 @@ export function AuthErrorBanner({ children }) {
     <motion.div
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-2xl px-4 py-2.5 leading-snug"
+      className="text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-2xl px-4 py-2.5 leading-snug"
     >
       {children}
     </motion.div>

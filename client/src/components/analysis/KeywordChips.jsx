@@ -13,7 +13,7 @@ function Chip({ children, tone }) {
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 h-7 pl-1.5 pr-3 rounded-full bg-[#F8E3E0]/70 text-[var(--danger)] text-[12px] font-semibold transition-transform hover:-translate-y-px">
+    <span className="inline-flex items-center gap-1.5 h-7 pl-1.5 pr-3 rounded-full bg-[rgba(196,97,97,0.10)] text-[var(--danger)] text-[12px] font-semibold transition-transform hover:-translate-y-px">
       <span className="h-4 w-4 rounded-full bg-[var(--danger)] text-white flex items-center justify-center">
         <X size={9} strokeWidth={3.5} />
       </span>
@@ -30,7 +30,7 @@ function SectionHeader({ tone, label, count }) {
         className={
           isPresent
             ? "h-6 w-6 rounded-lg bg-[var(--accent-soft)] text-[var(--accent-strong)] flex items-center justify-center"
-            : "h-6 w-6 rounded-lg bg-[#F8E3E0] text-[var(--danger)] flex items-center justify-center"
+            : "h-6 w-6 rounded-lg bg-[rgba(196,97,97,0.10)] text-[var(--danger)] flex items-center justify-center"
         }
       >
         {isPresent ? <Check size={12} strokeWidth={3} /> : <X size={12} strokeWidth={3} />}
@@ -97,7 +97,7 @@ export function KeywordChips({ present = [], missing = [] }) {
                 className="font-display tabular-nums text-[44px] font-semibold leading-none tracking-tight"
                 style={{
                   backgroundImage:
-                    "linear-gradient(135deg, #B6CFC0 0%, var(--accent) 45%, var(--accent-strong) 100%)",
+                    "linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",

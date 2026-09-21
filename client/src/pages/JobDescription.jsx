@@ -103,7 +103,7 @@ export default function JobDescriptions() {
             )}
           </Button>
           {submitError && (
-            <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+            <div className="text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-xl px-3 py-2">
               {submitError}
             </div>
           )}

@@ -4,4 +4,8 @@ global:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: [env.IP_ADDRESS]
+      - targets: ["192.168.0.103:8000"]
+  # - job_name: resume-api
+  #   metrics_path: /metrics
+  #   static_configs:
+  #     - targets: ["host.docker.internal:8000"]

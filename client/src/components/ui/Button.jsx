@@ -8,15 +8,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-[var(--ink)] text-[var(--bg)] hover:opacity-90 active:scale-[0.98]",
+          "bg-[var(--primary)] text-white hover:bg-[var(--primary-strong)] active:scale-[0.98]",
         accent:
-          "bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)] active:scale-[0.98]",
+          "bg-[var(--secondary)] text-white hover:bg-[var(--primary)] active:scale-[0.98]",
         outline:
           "bg-[var(--surface)] border border-[var(--border)] text-[var(--ink)] hover:bg-[var(--surface-2)]",
         ghost:
           "bg-transparent text-[var(--ink)] hover:bg-[var(--surface-2)]",
         soft:
-          "bg-[var(--accent-soft)] text-[var(--accent-strong)] hover:bg-[var(--accent-soft)]/80",
+          "bg-[var(--primary-soft)] text-[var(--primary)] hover:bg-[var(--secondary-soft)]",
       },
       size: {
         sm: "h-8 px-3 text-xs rounded-full",

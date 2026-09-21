@@ -21,7 +21,7 @@ export function StrengthsList({ strengths }) {
                 className="font-display tabular-nums text-[18px] font-semibold leading-none tracking-tight"
                 style={{
                   backgroundImage:
-                    "linear-gradient(135deg, #B6CFC0 0%, var(--accent) 45%, var(--accent-strong) 100%)",
+                    "linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",

@@ -180,7 +180,7 @@ export default function ResumeDetail() {
           </div>
         </div>
         {analyze.error && (
-          <div className="mt-4 text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+          <div className="mt-4 text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-xl px-3 py-2">
             {analyze.error.message}
           </div>
         )}

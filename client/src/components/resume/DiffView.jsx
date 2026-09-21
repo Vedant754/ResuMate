@@ -10,7 +10,7 @@ function GradientNumber({ value, size = 32, palette = "sage" }) {
   const gradient =
     palette === "danger"
       ? "linear-gradient(135deg, #F2B7B1 0%, var(--danger) 50%, #7A3A36 100%)"
-      : "linear-gradient(135deg, #B6CFC0 0%, var(--accent) 45%, var(--accent-strong) 100%)";
+      : "linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)";
   return (
     <span
       className="font-display tabular-nums font-semibold leading-none tracking-tight"
@@ -159,7 +159,7 @@ export function DiffView({ resumeId, versions }) {
       {isLoading && <Skeleton className="h-[300px] rounded-2xl" />}
 
       {error && (
-        <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+        <div className="text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-xl px-3 py-2">
           {error.message}
         </div>
       )}
@@ -274,7 +274,7 @@ export function DiffView({ resumeId, versions }) {
                   Added
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-sm bg-[#F8E3E0] border border-[var(--danger)]/30" />
+                  <span className="h-2.5 w-2.5 rounded-sm bg-[rgba(196,97,97,0.10)] border border-[var(--danger)]/30" />
                   Removed
                 </span>
               </div>
@@ -288,7 +288,7 @@ export function DiffView({ resumeId, versions }) {
                     p.added &&
                       "bg-[var(--accent-soft)] text-[var(--accent-strong)] font-medium rounded px-0.5 py-0.5",
                     p.removed &&
-                      "bg-[#F8E3E0] text-[var(--danger)] line-through decoration-[var(--danger)]/50 rounded px-0.5 py-0.5"
+                      "bg-[rgba(196,97,97,0.10)] text-[var(--danger)] line-through decoration-[var(--danger)]/50 rounded px-0.5 py-0.5"
                   )}
                 >
                   {p.value}

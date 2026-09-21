@@ -76,7 +76,7 @@ export function UploadDropzone({ onUploaded, compact = false }) {
             isDragActive
               ? "border-[var(--accent)] bg-[var(--accent-soft)]"
               : "border-[var(--border)] bg-[var(--surface-2)] hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]/40",
-            isDragReject && "border-[var(--danger)] bg-[#F8E3E0]"
+            isDragReject && "border-[var(--danger)] bg-[rgba(196,97,97,0.10)]"
           )}
         >
           <input {...getInputProps()} />
@@ -152,7 +152,7 @@ export function UploadDropzone({ onUploaded, compact = false }) {
       )}
 
       {err && (
-        <div className="text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+        <div className="text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-xl px-3 py-2">
           {err}
         </div>
       )}

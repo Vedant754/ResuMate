@@ -24,7 +24,7 @@ export function HeroDashboardPreview() {
         className="absolute top-6 left-1/2 -translate-x-1/2 w-[280px] sm:w-[300px] rounded-[22px] border border-white/[0.08] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] p-5 overflow-hidden"
         style={{
           background:
-            "linear-gradient(160deg, #1F2A24 0%, #16181D 45%, #0F1115 100%)",
+            "linear-gradient(160deg, #243B64 0%, #11182A 45%, #0B1020 100%)",
           boxShadow:
             "0 24px 60px -12px rgba(0,0,0,0.6), inset 0 1px 0 0 rgba(255,255,255,0.06)",
         }}
@@ -36,8 +36,8 @@ export function HeroDashboardPreview() {
             </div>
             <div className="text-[11px] text-white/55 mt-0.5">Senior_Frontend.pdf</div>
           </div>
-          <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[rgba(143,179,156,0.14)] text-[#8FB39C] text-[10px] font-semibold">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#8FB39C]" />
+          <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[rgba(176,154,232,0.13)] text-[#B09AE8] text-[10px] font-semibold">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#B09AE8]" />
             Strong
           </div>
         </div>
@@ -46,8 +46,8 @@ export function HeroDashboardPreview() {
           <svg viewBox="0 0 200 120" className="w-full h-auto block">
             <defs>
               <linearGradient id="heroArc" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#8FB39C" />
-                <stop offset="100%" stopColor="#B6CFC0" />
+                <stop offset="0%" stopColor="#5967A8" />
+                <stop offset="100%" stopColor="#B09AE8" />
               </linearGradient>
             </defs>
             <path
@@ -78,7 +78,7 @@ export function HeroDashboardPreview() {
         </div>
 
         <div className="mt-3 flex items-center justify-center">
-          <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[rgba(143,179,156,0.16)] text-[#B6CFC0] text-[10px] font-semibold tabular">
+          <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[rgba(154,159,226,0.12)] text-[#9A9FE2] text-[10px] font-semibold tabular">
             <TrendingUp size={10} strokeWidth={2.5} />
             +18 vs V1
           </div>
@@ -93,13 +93,13 @@ export function HeroDashboardPreview() {
         className="absolute bottom-10 left-0 sm:-left-4 w-[230px] rounded-[18px] backdrop-blur border border-white/[0.08] p-4 overflow-hidden"
         style={{
           background:
-            "linear-gradient(155deg, rgba(31,42,36,0.95) 0%, rgba(22,24,29,0.95) 50%, rgba(15,17,21,0.95) 100%)",
+            "linear-gradient(155deg, rgba(24,33,54,0.96) 0%, rgba(17,24,42,0.96) 50%, rgba(11,16,32,0.96) 100%)",
           boxShadow:
             "0 24px 60px -16px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255,255,255,0.05)",
         }}
       >
         <div className="flex items-center gap-2 mb-3">
-          <div className="h-6 w-6 rounded-lg bg-[rgba(212,132,124,0.16)] text-[#D4847C] flex items-center justify-center">
+          <div className="h-6 w-6 rounded-lg bg-[rgba(229,139,139,0.16)] text-[#E58B8B] flex items-center justify-center">
             <AlertCircle size={12} />
           </div>
           <div className="text-[11px] font-semibold text-white">Top issues</div>
@@ -126,7 +126,7 @@ export function HeroDashboardPreview() {
                     ? "#D4847C"
                     : it.tone === "med"
                     ? "#D4A86A"
-                    : "#8FB39C",
+                    : "#6FC3A2",
               }}
             />
             <div className="text-[11px] text-white/75 truncate">{it.label}</div>
@@ -142,17 +142,17 @@ export function HeroDashboardPreview() {
         className="absolute bottom-4 right-0 sm:-right-4 w-[260px] rounded-[18px] backdrop-blur border border-white/[0.08] p-4 overflow-hidden"
         style={{
           background:
-            "linear-gradient(155deg, rgba(31,42,36,0.95) 0%, rgba(22,24,29,0.95) 50%, rgba(15,17,21,0.95) 100%)",
+            "linear-gradient(155deg, rgba(24,33,54,0.96) 0%, rgba(17,24,42,0.96) 50%, rgba(11,16,32,0.96) 100%)",
           boxShadow:
             "0 24px 60px -16px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255,255,255,0.05)",
         }}
       >
         <div className="flex items-center gap-2 mb-3">
-          <div className="h-6 w-6 rounded-lg bg-[rgba(143,179,156,0.16)] text-[#B6CFC0] flex items-center justify-center">
+          <div className="h-6 w-6 rounded-lg bg-[rgba(176,154,232,0.13)] text-[#B09AE8] flex items-center justify-center">
             <Sparkles size={12} />
           </div>
           <div className="text-[11px] font-semibold text-white">AI rewrite</div>
-          <div className="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[rgba(143,179,156,0.16)] text-[#B6CFC0] text-[9px] font-semibold">
+          <div className="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[rgba(176,154,232,0.13)] text-[#B09AE8] text-[9px] font-semibold">
             <CheckCircle2 size={9} /> improved
           </div>
         </div>
@@ -165,7 +165,7 @@ export function HeroDashboardPreview() {
         </div>
         <div className="flex items-center gap-1.5 my-2 text-white/30">
           <ArrowRight size={11} />
-          <span className="text-[9px] uppercase tracking-wide text-[#B6CFC0] font-semibold">
+          <span className="text-[9px] uppercase tracking-wide text-[#B09AE8] font-semibold">
             After
           </span>
         </div>

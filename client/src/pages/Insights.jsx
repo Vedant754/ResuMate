@@ -221,7 +221,7 @@ export default function Insights() {
               {data.topMissingKeywords.map((k, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F8E3E0] text-[var(--danger)]"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[rgba(196,97,97,0.10)] text-[var(--danger)]"
                 >
                   {k.keyword}
                   <span className="tabular text-[10px] opacity-70">×{k.count}</span>

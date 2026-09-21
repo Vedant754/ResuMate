@@ -82,7 +82,7 @@ function VersionPill({ version, delta, isLatest }) {
           className={cn(
             "inline-flex items-center gap-1 mt-3 px-2 py-0.5 rounded-full text-[10px] font-semibold tabular",
             delta > 0 && "bg-[var(--accent-soft)] text-[var(--success)]",
-            delta < 0 && "bg-[#F8E3E0] text-[var(--danger)]",
+            delta < 0 && "bg-[rgba(196,97,97,0.10)] text-[var(--danger)]",
             delta === 0 && "bg-[var(--surface)] text-[var(--ink-muted)]",
             isLatest && delta > 0 && "bg-white text-[var(--success)]"
           )}
@@ -264,7 +264,7 @@ export function VersionStack({ versions, resumeId, resumeTitle }) {
               className={cn(
                 "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tabular",
                 totalDelta > 0 && "bg-[var(--accent-soft)] text-[var(--success)]",
-                totalDelta < 0 && "bg-[#F8E3E0] text-[var(--danger)]",
+                totalDelta < 0 && "bg-[rgba(196,97,97,0.10)] text-[var(--danger)]",
                 totalDelta === 0 && "bg-[var(--surface-2)] text-[var(--ink-muted)]"
               )}
             >

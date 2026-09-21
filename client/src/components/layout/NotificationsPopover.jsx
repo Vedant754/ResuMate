@@ -15,7 +15,7 @@ const ICONS = {
 const ICON_TONE = {
   upload: "bg-[var(--surface-2)] text-[var(--ink-muted)]",
   analyze: "bg-[var(--accent-soft)] text-[var(--accent-strong)]",
-  rewrite: "bg-[#FBEFD9] text-[var(--warning)]",
+  rewrite: "bg-[rgba(194,138,61,0.10)] text-[var(--warning)]",
 };
 
 const LAST_SEEN_KEY = "arr-notif-last-seen";

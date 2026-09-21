@@ -116,7 +116,7 @@ function AtsScoreCard() {
             <span className="text-sm text-gray-400 font-medium">/ 100</span>
           </div>
         </div>
-        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#E6EFE8] text-[#2F4A3A]">
+        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#E9EEF7] text-[#243B64]">
           <TrendingUp size={10} strokeWidth={2.5} />
           +12 pts
         </div>
@@ -127,7 +127,7 @@ function AtsScoreCard() {
           className="absolute inset-y-0 left-0 rounded-full"
           style={{
             width: "82%",
-            background: "linear-gradient(90deg, #5B7C6A 0%, #2F4A3A 100%)",
+            background: "linear-gradient(90deg, #243B64 0%, #5967A8 100%)",
           }}
         />
       </div>
@@ -164,7 +164,7 @@ function ScoreEvolutionCard() {
             <span className="text-xs text-gray-400">pts overall</span>
           </div>
         </div>
-        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#E6EFE8] text-[#2F4A3A]">
+        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#EEF0FA] text-[#5967A8]">
           V1 → V3
         </div>
       </div>
@@ -176,14 +176,14 @@ function ScoreEvolutionCard() {
       >
         <defs>
           <linearGradient id="ev-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#5B7C6A" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#5B7C6A" stopOpacity="0" />
+            <stop offset="0%" stopColor="#5967A8" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#5967A8" stopOpacity="0" />
           </linearGradient>
         </defs>
         <polygon points={area} fill="url(#ev-fill)" />
         <polyline
           points={points}
-          stroke="#2F4A3A"
+          stroke="#5967A8"
           strokeWidth="2"
           fill="none"
           strokeLinecap="round"
@@ -201,7 +201,7 @@ function ScoreEvolutionCard() {
             cy={y}
             r="2.5"
             fill="white"
-            stroke="#2F4A3A"
+            stroke="#5967A8"
             strokeWidth="1.5"
           />
         ))}
@@ -230,8 +230,8 @@ function TopIssuesCard() {
     { title: "No keyword density", sev: "high" },
   ];
   const TONE = {
-    high: "bg-[#F8E3E0] text-[#B5564E]",
-    medium: "bg-[#FBF1E2] text-[#C28A3A]",
+    high: "bg-[rgba(196,97,97,0.10)] text-[#C46161]",
+    medium: "bg-[rgba(194,138,61,0.10)] text-[#C28A3D]",
     low: "bg-gray-100 text-gray-500",
   };
 
@@ -239,7 +239,7 @@ function TopIssuesCard() {
     <PreviewCard width={320}>
       <div className="flex items-start justify-between mb-4">
         <Label>Critical Issues</Label>
-        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#F8E3E0] text-[#B5564E]">
+        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[rgba(196,97,97,0.10)] text-[#C46161]">
           5 found
         </div>
       </div>
@@ -277,7 +277,7 @@ function RewriteCard() {
     <PreviewCard width={340}>
       <div className="flex items-start justify-between mb-3">
         <Label>AI Rewrite</Label>
-        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#E6EFE8] text-[#2F4A3A]">
+        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#F0EDFA] text-[#8B7FC7]">
           <Sparkles size={10} strokeWidth={2.5} />
           Suggested
         </div>
@@ -297,8 +297,8 @@ function RewriteCard() {
           <ArrowRight size={14} />
         </div>
 
-        <div className="rounded-2xl bg-[#E6EFE8] p-3">
-          <div className="text-[9px] uppercase tracking-wide text-[#2F4A3A] mb-1 font-semibold">
+        <div className="rounded-2xl bg-[#F0EDFA] p-3">
+          <div className="text-[9px] uppercase tracking-wide text-[#8B7FC7] mb-1 font-semibold">
             Rewritten
           </div>
           <div className="text-[12.5px] text-gray-900 leading-snug">
@@ -346,7 +346,7 @@ function KeywordsCard() {
           {present.map((k) => (
             <span
               key={k}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#E6EFE8] text-[#2F4A3A]"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#E9EEF7] text-[#243B64]"
             >
               <Check size={9} strokeWidth={3} />
               {k}
@@ -357,7 +357,7 @@ function KeywordsCard() {
           {missing.map((k) => (
             <span
               key={k}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#F8E3E0] text-[#B5564E]"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[rgba(196,97,97,0.10)] text-[#C46161]"
             >
               <X size={9} strokeWidth={3} />
               {k}
@@ -384,7 +384,7 @@ function StrengthsCard() {
     <PreviewCard width={310}>
       <div className="flex items-start justify-between mb-4">
         <Label>Standout Strengths</Label>
-        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#E6EFE8] text-[#2F4A3A]">
+        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#F0EDFA] text-[#8B7FC7]">
           5 total
         </div>
       </div>
@@ -392,7 +392,7 @@ function StrengthsCard() {
       <div className="space-y-2.5">
         {strengths.map((s, i) => (
           <div key={i} className="flex items-start gap-3">
-            <div className="h-8 w-8 rounded-xl bg-[#E6EFE8] flex items-center justify-center text-[#2F4A3A] shrink-0">
+            <div className="h-8 w-8 rounded-xl bg-[#F0EDFA] flex items-center justify-center text-[#8B7FC7] shrink-0">
               <Sparkles size={13} />
             </div>
             <div className="flex-1 min-w-0">

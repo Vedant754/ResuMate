@@ -12,7 +12,7 @@ function GradientNumber({ value, size = 32 }) {
       style={{
         fontSize: size,
         backgroundImage:
-          "linear-gradient(135deg, #B6CFC0 0%, var(--accent) 45%, var(--accent-strong) 100%)",
+          "linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)",
         WebkitBackgroundClip: "text",
         backgroundClip: "text",
         color: "transparent",
@@ -163,7 +163,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
               className="rounded-full p-[1.5px]"
               style={{
                 background:
-                  "linear-gradient(135deg, #B6CFC0 0%, var(--accent) 45%, var(--accent-strong) 100%)",
+                  "linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%)",
               }}
             >
               <Button
@@ -296,7 +296,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
       </div>
 
       {error && (
-        <div className="mt-4 text-xs text-[var(--danger)] bg-[#F8E3E0] rounded-xl px-3 py-2">
+        <div className="mt-4 text-xs text-[var(--danger)] bg-[rgba(196,97,97,0.10)] rounded-xl px-3 py-2">
           {error}
         </div>
       )}

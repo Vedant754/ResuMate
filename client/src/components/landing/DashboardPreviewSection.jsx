@@ -73,7 +73,7 @@ export function DashboardPreviewSection() {
                   V1 → V4 over 3 weeks
                 </div>
               </div>
-              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[rgba(143,179,156,0.16)] text-[#B6CFC0] text-[10px] font-semibold tabular">
+              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[rgba(154,159,226,0.12)] text-[#9A9FE2] text-[10px] font-semibold tabular">
                 <TrendingUp size={10} strokeWidth={2.5} />
                 +44 pts
               </div>
@@ -118,7 +118,7 @@ export function DashboardPreviewSection() {
                     className="h-full rounded-full"
                     style={{
                       background:
-                        "linear-gradient(90deg, #8FB39C 0%, #B6CFC0 100%)",
+                        "linear-gradient(90deg, #5967A8 0%, #B09AE8 100%)",
                     }}
                   />
                 </div>
@@ -137,7 +137,7 @@ export function DashboardPreviewSection() {
                   Apply all → new version
                 </div>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[rgba(143,179,156,0.14)] text-[#B6CFC0] text-[10px] font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[rgba(176,154,232,0.13)] text-[#B09AE8] text-[10px] font-semibold">
                 <Sparkles size={10} /> AI rewrite
               </div>
             </div>
@@ -154,8 +154,8 @@ export function DashboardPreviewSection() {
               <div className="flex justify-center text-white/30">
                 <ArrowRight size={16} />
               </div>
-              <div className="rounded-xl bg-[rgba(143,179,156,0.10)] border border-[rgba(143,179,156,0.22)] p-3">
-                <div className="text-[9px] uppercase tracking-wide text-[#B6CFC0] font-semibold mb-1">
+              <div className="rounded-xl bg-[rgba(176,154,232,0.10)] border border-[rgba(176,154,232,0.22)] p-3">
+                <div className="text-[9px] uppercase tracking-wide text-[#B09AE8] font-semibold mb-1">
                   Rewritten
                 </div>
                 <div className="text-[12.5px] text-white leading-snug">
@@ -169,7 +169,7 @@ export function DashboardPreviewSection() {
           <DarkCard className="lg:col-span-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="flex items-center gap-1.5 text-[#D4847C] mb-2">
+                <div className="flex items-center gap-1.5 text-[#E58B8B] mb-2">
                   <AlertCircle size={12} />
                   <span className="text-[11px] uppercase tracking-wide font-semibold">
                     Issues
@@ -185,7 +185,7 @@ export function DashboardPreviewSection() {
                 ))}
               </div>
               <div>
-                <div className="flex items-center gap-1.5 text-[#8FB39C] mb-2">
+                <div className="flex items-center gap-1.5 text-[#9A9FE2] mb-2">
                   <CheckCircle2 size={12} />
                   <span className="text-[11px] uppercase tracking-wide font-semibold">
                     Strengths
@@ -225,7 +225,7 @@ function KpiCard({ className = "", icon: Icon, label, value, suffix, delta, acce
     <div
       className={`rounded-2xl p-5 border ${
         accent
-          ? "bg-gradient-to-br from-[#2F4A3A] to-[#1A2B22] border-[rgba(143,179,156,0.3)]"
+          ? "bg-gradient-to-br from-[#243B64] to-[#344D7A] border-[rgba(145,168,216,0.3)]"
           : "bg-white/[0.03] border-white/[0.07]"
       } ${className}`}
     >
@@ -234,7 +234,7 @@ function KpiCard({ className = "", icon: Icon, label, value, suffix, delta, acce
           className={`h-7 w-7 rounded-full flex items-center justify-center ${
             accent
               ? "bg-white/15 text-white"
-              : "bg-[rgba(143,179,156,0.14)] text-[#B6CFC0]"
+              : "bg-[rgba(154,159,226,0.12)] text-[#9A9FE2]"
           }`}
         >
           <Icon size={13} />
@@ -248,7 +248,7 @@ function KpiCard({ className = "", icon: Icon, label, value, suffix, delta, acce
         {suffix && <span className="text-[12px] text-white/45">{suffix}</span>}
       </div>
       {delta && (
-        <div className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full bg-[rgba(143,179,156,0.14)] text-[#8FB39C] text-[10px] font-semibold tabular">
+        <div className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full bg-[rgba(154,159,226,0.12)] text-[#9A9FE2] text-[10px] font-semibold tabular">
           {delta}
         </div>
       )}
@@ -268,8 +268,8 @@ function AreaChart() {
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-[140px]">
       <defs>
         <linearGradient id="dpAreaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#8FB39C" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#8FB39C" stopOpacity="0" />
+          <stop offset="0%" stopColor="#5967A8" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#5967A8" stopOpacity="0" />
         </linearGradient>
       </defs>
       <motion.path
@@ -283,7 +283,7 @@ function AreaChart() {
       <motion.path
         d={path}
         fill="none"
-        stroke="#B6CFC0"
+        stroke="#B09AE8"
         strokeWidth="2.5"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
@@ -297,8 +297,8 @@ function AreaChart() {
           cx={i * stepX}
           cy={h - (p / 100) * h}
           r="3.5"
-          fill="#16181D"
-          stroke="#B6CFC0"
+          fill="#11182A"
+          stroke="#B09AE8"
           strokeWidth="2"
         />
       ))}

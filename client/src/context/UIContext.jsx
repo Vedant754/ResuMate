@@ -12,7 +12,7 @@ const VARIANTS = {
   },
   error: {
     icon: AlertCircle,
-    iconClass: "text-[var(--danger)] bg-[#F8E3E0]",
+    iconClass: "text-[var(--danger)] bg-[rgba(196,97,97,0.10)]",
   },
   info: {
     icon: Info,

@@ -22,17 +22,82 @@ const monitoringRouter = require("./routes/monitoring");
 
 const app = express();
 
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ register: client.register, timeout: 5000, prefix: "resume_gpt_" });
+const register = new client.Registry();
+client.collectDefaultMetrics({register});
+
+const httpRequestsTotal = new client.Counter({
+  name: "http_requests_total",
+  help: "Total number of HTTP requests",
+  labelNames: ["method", "route", "status_code"],
+  registers: [register],
+});
+
+const httpRequestDuration = new client.Histogram({
+  name: "http_request_duration_seconds",
+  help: "HTTP request duration in seconds",
+  labelNames: ["method", "route", "status_code"],
+  buckets: [
+    0.005,
+    0.01,
+    0.025,
+    0.05,
+    0.1,
+    0.25,
+    0.5,
+    1,
+    2.5,
+    5,
+    10,
+  ],
+  registers: [register],
+});
+
+// middleware to record metrics for each request
+app.use((req, res, next) => {
+  const start = process.hrtime.bigint();
+
+  res.on("finish", () => {
+
+  //   if (req.path === "/metrics") {
+  //   return next();
+  // }
+    const duration =
+      Number(process.hrtime.bigint() - start) / 1e9;
+
+    const route =
+      req.route?.path ||
+      req.baseUrl ||
+      "unknown";
+
+    const labels = {
+      method: req.method,
+      route,
+      status_code: String(res.statusCode),
+    };
+
+    httpRequestsTotal.inc(labels);
+
+    httpRequestDuration.observe(
+      labels,
+      duration
+    );
+  });
+
+  next();
+});
 
 // Route for metrics endpoint
-app.get('/metrics', async (req, res) => {
+app.get("/metrics", async (req, res) => {
   try {
-    res.setHeader('Content-Type', client.register.contentType);
-    const metrics = await client.register.metrics();
+    res.set("Content-Type", register.contentType);
+
+    const metrics = await register.metrics();
+
     res.send(metrics);
-  } catch (err) {
-    res.status(500).send(err.message);
+  } catch (error) {
+    console.error("Failed to generate Prometheus metrics:", error);
+
+    res.status(500).send("Failed to generate metrics");
   }
 });
 

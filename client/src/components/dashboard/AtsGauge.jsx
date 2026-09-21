@@ -112,7 +112,7 @@ export function AtsGauge({ score = 0, delta = 0 }) {
           className={cn(
             "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold tabular",
             delta > 0 && "bg-[var(--accent-soft)] text-[var(--success)]",
-            delta < 0 && "bg-[#F8E3E0] text-[var(--danger)]",
+            delta < 0 && "bg-[rgba(196,97,97,0.10)] text-[var(--danger)]",
             delta === 0 && "bg-[var(--surface-2)] text-[var(--ink-muted)]"
           )}
         >

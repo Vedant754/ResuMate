@@ -76,7 +76,7 @@ export function FeaturesSection() {
         className="absolute -top-20 left-1/2 -translate-x-1/2 w-[900px] h-[480px] pointer-events-none -z-10"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(143,179,156,0.18) 0%, rgba(143,179,156,0.06) 35%, transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(139,127,199,0.18) 0%, rgba(139,127,199,0.06) 35%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -90,7 +90,7 @@ export function FeaturesSection() {
             <span
               style={{
                 backgroundImage:
-                  "linear-gradient(120deg, #5B7C6A 0%, #2F4A3A 60%, #5B7C6A 100%)",
+                  "linear-gradient(120deg, #243B64 0%, #5967A8 60%, #8B7FC7 100%)",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -114,7 +114,7 @@ export function FeaturesSection() {
             transition={{ duration: 0.5, delay: (i % 3) * 0.05 }}
             className={`group relative rounded-[22px] border border-[var(--border)] shadow-card hover:shadow-hover transition-all duration-300 overflow-hidden ${f.span || ""}`}
             style={{
-              background: "linear-gradient(180deg, #FFFFFF 0%, #FBFBF7 100%)",
+              background: "linear-gradient(180deg, #FFFFFF 0%, #F1F2F5 100%)",
             }}
           >
             {/* Top-edge gradient highlight (inset light line) */}
@@ -123,7 +123,7 @@ export function FeaturesSection() {
               className="absolute inset-x-0 top-0 h-px pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(91,124,106,0.25), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(89,103,168,0.25), transparent)",
               }}
             />
 
@@ -133,7 +133,7 @@ export function FeaturesSection() {
               className="absolute -top-24 -right-24 w-[260px] h-[260px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(143,179,156,0.28) 0%, rgba(143,179,156,0) 65%)",
+                  "radial-gradient(circle, rgba(176,154,232,0.28) 0%, rgba(176,154,232,0) 65%)",
                 filter: "blur(20px)",
               }}
             />
@@ -144,9 +144,9 @@ export function FeaturesSection() {
                   className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-[1.06] transition-transform duration-300 text-[var(--accent-strong)]"
                   style={{
                     background:
-                      "linear-gradient(135deg, #EEF5EF 0%, #D9E7DD 100%)",
+                      "linear-gradient(135deg, #F0EDFA 0%, #EEF0FA 100%)",
                     boxShadow:
-                      "inset 0 1px 0 0 rgba(255,255,255,0.7), 0 1px 2px rgba(47,74,58,0.06)",
+                      "inset 0 1px 0 0 rgba(255,255,255,0.7), 0 1px 2px rgba(36,59,100,0.06)",
                   }}
                 >
                   <f.icon size={17} strokeWidth={2.25} />
@@ -298,7 +298,7 @@ function KeywordsPreview() {
         {missing.map((k) => (
           <span
             key={k}
-            className="px-2 py-0.5 rounded-full bg-[#F8E3E0] text-[var(--danger)] text-[10px] font-semibold"
+            className="px-2 py-0.5 rounded-full bg-[rgba(196,97,97,0.10)] text-[var(--danger)] text-[10px] font-semibold"
           >
             + {k}
           </span>
@@ -340,7 +340,7 @@ function VersionsPreview() {
 function DiffPreview() {
   return (
     <div className="rounded-2xl bg-[var(--surface-2)] border border-[var(--border)] p-3 space-y-1 font-mono text-[11px]">
-      <div className="flex gap-2 px-2 py-1 rounded-md bg-[#F8E3E0]/50">
+      <div className="flex gap-2 px-2 py-1 rounded-md bg-[rgba(196,97,97,0.10)]">
         <span className="text-[var(--danger)] font-bold w-3">−</span>
         <span className="text-[var(--ink-muted)] line-through">
           helped team
