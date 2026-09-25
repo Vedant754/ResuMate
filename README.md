@@ -1,6 +1,6 @@
 # Resumate
 
-AI Resume Roaster is a full-stack resume optimization application that helps candidates upload a PDF resume, inspect its ATS readiness, compare it with a target job description, apply AI-generated bullet rewrites, and track improvement across immutable resume versions.
+Resumate is a full-stack AI resume optimization application that helps candidates upload a PDF resume, inspect its ATS readiness, compare it with a target job description, apply AI-generated bullet rewrites, and track improvement across immutable resume versions.
 
 The project is organized as a Vite/React client and a Node.js/Express API backed by MongoDB. Google Gemini provides structured resume parsing and AI analysis. Prometheus-compatible metrics and a small monitoring API are included for operational visibility.
 
