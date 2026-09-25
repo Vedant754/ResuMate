@@ -205,6 +205,10 @@ function buildPrompt({ rawText, targetRole, jobDesc }) {
 }
 
 async function callGemini(prompt, schema = responseSchema, operation) {
+  // Request count
+  geminiRequestsTotal.inc({
+    model: env.geminiModel,
+  });
   const startedAt = process.hrtime.bigint();
   try {
     const result = await ai.models.generateContent({
@@ -220,10 +224,10 @@ async function callGemini(prompt, schema = responseSchema, operation) {
     const duration =
       Number(process.hrtime.bigint() - startedAt) / 1e9;
 
-    // Request count
-    geminiRequestsTotal.inc({
-      model: env.geminiModel,
-    });
+    // // Request count
+    // geminiRequestsTotal.inc({
+    //   model: env.geminiModel,
+    // });
 
     // Latency
     geminiRequestDuration.observe(
@@ -265,24 +269,11 @@ async function callGemini(prompt, schema = responseSchema, operation) {
       );
     }
 
-    // monitoring.recordAiCall({
-    //   operation,
-    //   model: env.geminiModel,
-    //   durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
-    //   promptTokens: usage.promptTokenCount,
-    //   responseTokens: usage.candidatesTokenCount,
-    // });
     return { text, usage };
   } catch (error) {
-    // monitoring.recordAiCall({
-    //   operation,
-    //   model: env.geminiModel,
-    //   durationMs: Number(process.hrtime.bigint() - startedAt) / 1e6,
-    //   error,
-    // });
     geminiErrorsTotal.inc({
-    model: env.geminiModel,
-  });
+      model: env.geminiModel,
+    });
     throw error;
   }
 }
@@ -354,4 +345,4 @@ async function analyzeJobDescription({ rawText, jobDesc, targetRole }) {
   );
 }
 
-module.exports = { analyzeResume, analyzeJobDescription};
+module.exports = { analyzeResume, analyzeJobDescription };
