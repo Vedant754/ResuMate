@@ -263,14 +263,6 @@ The API is mounted under `/api`. Authenticated endpoints require the `arr_token`
 | `GET` | `/api/versions` | Return version history across the user's resumes. |
 | `GET` | `/api/history` | Return upload, analysis, and rewrite events. |
 
-### Monitoring endpoint
-
-`GET /api/monitoring` returns a monitoring snapshot containing database state, Gemini availability/model, and recorded server/client error information. In production, `MONITORING_TOKEN` must be configured. When configured, send it as:
-
-```http
-x-monitoring-token: your-monitoring-token
-```
-
 ## Monitoring
 
 The server exposes metrics for:
