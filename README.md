@@ -1,4 +1,4 @@
-# AI Resume Roaster
+# Resumate
 
 AI Resume Roaster is a full-stack resume optimization application that helps candidates upload a PDF resume, inspect its ATS readiness, compare it with a target job description, apply AI-generated bullet rewrites, and track improvement across immutable resume versions.
 
