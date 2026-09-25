@@ -90,7 +90,7 @@ export function FeaturesSection() {
             <span
               style={{
                 backgroundImage:
-                  "linear-gradient(120deg, #243B64 0%, #5967A8 60%, #8B7FC7 100%)",
+                  "linear-gradient(120deg, var(--headline-start) 0%, var(--headline-mid) 60%, var(--headline-end) 100%)",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -114,7 +114,8 @@ export function FeaturesSection() {
             transition={{ duration: 0.5, delay: (i % 3) * 0.05 }}
             className={`group relative rounded-[22px] border border-[var(--border)] shadow-card hover:shadow-hover transition-all duration-300 overflow-hidden ${f.span || ""}`}
             style={{
-              background: "linear-gradient(180deg, #FFFFFF 0%, #F1F2F5 100%)",
+              background:
+                "linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%)",
             }}
           >
             {/* Top-edge gradient highlight (inset light line) */}
@@ -144,7 +145,7 @@ export function FeaturesSection() {
                   className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-[1.06] transition-transform duration-300 text-[var(--accent-strong)]"
                   style={{
                     background:
-                      "linear-gradient(135deg, #F0EDFA 0%, #EEF0FA 100%)",
+                      "linear-gradient(135deg, var(--accent-soft) 0%, var(--secondary-soft) 100%)",
                     boxShadow:
                       "inset 0 1px 0 0 rgba(255,255,255,0.7), 0 1px 2px rgba(36,59,100,0.06)",
                   }}

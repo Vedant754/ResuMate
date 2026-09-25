@@ -27,7 +27,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(135deg, #243B64 0%, #344D7A 55%, #5967A8 100%)",
+            "linear-gradient(135deg, #1C2833 0%, #2E4053 55%, #52616B 100%)",
         }}
       />
 
@@ -36,7 +36,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(139,127,199,0.3) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(122,139,153,0.3) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{
@@ -50,7 +50,7 @@ function BrandPanel({ headline, subhead }) {
         className="absolute -bottom-40 -left-32 w-[460px] h-[460px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(176,154,232,0.24) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(197,208,212,0.24) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{
@@ -175,7 +175,7 @@ export function AuthPrimaryButton({ children, disabled, ...props }) {
       className="relative w-full h-12 rounded-2xl text-white font-semibold text-[15px] flex items-center justify-center gap-2 overflow-hidden shadow-[0_8px_24px_-8px_rgba(36,59,100,0.45)] transition-all duration-200 hover:shadow-[0_12px_28px_-8px_rgba(23,43,77,0.65)] disabled:opacity-60 disabled:cursor-not-allowed"
       style={{
         background:
-          "linear-gradient(135deg, #243B64 0%, #5967A8 100%)",
+          "linear-gradient(135deg, #1C2833 0%, #52616B 100%)",
       }}
       {...props}
     >

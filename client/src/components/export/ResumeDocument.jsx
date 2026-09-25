@@ -10,8 +10,8 @@ import {
 const C = {
   ink: "#172033",
   inkMuted: "#697386",
-  accent: "#243B64",
-  accentSoft: "#E9EEF7",
+  accent: "#2E4053",
+  accentSoft: "#E1E6E7",
   hairline: "#DDE2EA",
   bg: "#FFFFFF",
 };

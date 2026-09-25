@@ -17,7 +17,7 @@ export function CTASection() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/10 backdrop-blur-md"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#B09AE8]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#C5D0D4]" />
           <span className="text-[11px] tracking-wide text-white/85 uppercase font-semibold">
             Free forever for your first 3 analyses
           </span>
@@ -36,7 +36,7 @@ export function CTASection() {
           <span
             style={{
               backgroundImage:
-                "linear-gradient(120deg, #F0EDFA 0%, #B09AE8 50%, #5967A8 100%)",
+                "linear-gradient(120deg, var(--headline-start) 0%, var(--headline-mid) 50%, var(--headline-end) 100%)",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -70,7 +70,7 @@ export function CTASection() {
             className="group relative inline-flex items-center gap-2 h-12 px-6 rounded-full font-semibold text-[14px] text-white shadow-[0_10px_30px_-8px_rgba(36,59,100,0.45)] hover:shadow-[0_14px_36px_-8px_rgba(89,103,168,0.65)] active:scale-[0.98] transition-all"
             style={{
               background:
-                "linear-gradient(135deg, #243B64 0%, #5967A8 100%)",
+                "linear-gradient(135deg, #1C2833 0%, #52616B 100%)",
             }}
           >
             <span
@@ -99,7 +99,7 @@ export function CTASection() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="mt-6 inline-flex items-center gap-1.5 text-[12px] text-white/50"
         >
-          <ShieldCheck size={13} className="text-[#B09AE8]" />
+          <ShieldCheck size={13} className="text-[#C5D0D4]" />
           No credit card · We never store your resume PDF
         </motion.div>
       </DarkPanel>

@@ -24,7 +24,7 @@ const AILogo = () => {
           className="absolute -inset-1/2"
           style={{
             background:
-              "conic-gradient(from 0deg, #243B64, #5967A8, #B09AE8, #5967A8, #243B64)",
+              "conic-gradient(from 0deg, #1C2833, #52616B, #C5D0D4, #52616B, #1C2833)",
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
@@ -49,7 +49,7 @@ const AILogo = () => {
           className="relative h-[18px] w-[18px] rounded-[4px]"
           style={{
             background:
-              "linear-gradient(135deg, #5967A8 0%, #243B64 50%, #5967A8 100%)",
+              "linear-gradient(135deg, #52616B 0%, #1C2833 50%, #52616B 100%)",
             backgroundSize: "200% 200%",
             rotate: 45,
           }}
