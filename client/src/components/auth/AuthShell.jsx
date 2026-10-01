@@ -98,7 +98,7 @@ function BrandPanel({ headline, subhead }) {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/10 backdrop-blur-md">
             <Sparkles size={12} className="text-white/80" />
             <span className="text-[11px] tracking-wide text-white/80 uppercase font-semibold">
-              AI Resume Roaster
+              Resumate, AI powered resume analyzer
             </span>
           </div>
 
