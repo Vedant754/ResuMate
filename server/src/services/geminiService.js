@@ -212,6 +212,23 @@ function buildPrompt({ rawText, targetRole, jobDesc }) {
   ].join("\n");
 }
 
+function validateScoreConsistency(result) {
+  const { keywords, formatting, impact, clarity } = result.scoreBreakdown;
+  const computedTotal = keywords + formatting + impact + clarity;
+  const discrepancy = Math.abs(computedTotal - result.atsScore);
+
+  if (discrepancy > 2) {
+    logger.warn('ATS score mismatch', {
+      reported: result.atsScore,
+      computed: computedTotal,
+      discrepancy,
+    });
+    // also increment a Prometheus counter here — see below
+  }
+
+  return { ...result, atsScore: computedTotal };
+}
+
 async function callGemini(prompt, schema = responseSchema, operation) {
   // Request count
   geminiRequestsTotal.inc({
@@ -229,13 +246,13 @@ async function callGemini(prompt, schema = responseSchema, operation) {
       },
     });
 
+    const text =
+      typeof result.text === "function" ? result.text() : result.text;
+
+    result = validateScoreConsistency(text ? JSON.parse(text) : {} );
+
     const duration =
       Number(process.hrtime.bigint() - startedAt) / 1e9;
-
-    // // Request count
-    // geminiRequestsTotal.inc({
-    //   model: env.geminiModel,
-    // });
 
     // Latency
     geminiRequestDuration.observe(
@@ -245,8 +262,8 @@ async function callGemini(prompt, schema = responseSchema, operation) {
       duration
     );
 
-    const text =
-      typeof result.text === "function" ? result.text() : result.text;
+    // const text =
+    //   typeof result.text === "function" ? result.text() : result.text;
     if (!text) throw new Error("Empty response from Gemini");
 
     const usage = result.usageMetadata || {};
